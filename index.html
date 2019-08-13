@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>廖儿的首页</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+   <main>
+       <div id="x">
+
+       </div>
+   </main>
+    <script>
+        //用数组存放键盘，key[0],[1],[2]分别存放26个字母按键的第一，二，三行
+        var key=[];
+        key[0]=['q','w','e','r','t','y','u','i','o','p'];
+        key[1]=['a','s','d','f','g','h','j','k','l'];
+        key[2]=['z','x','c','v','b','n','m'];
+        //hash代表每一个字母按键所对应的网址
+        var hash={
+             'w':"weibo.com",
+             'b':"baidu.com",
+             's':"bilibili.com",
+             't':"v.qq.com"
+        };
+        //
+          // 取出localstorage中的uuu对应的hash
+          var hashInLocalStorage =JSON.parse(localStorage.getItem('uuu')||'null')
+        if(hashInLocalStorage)
+        {
+            hash=hashInLocalStorage
+        }
+        //
+        index=0;
+        while(index<key.length){
+            var rows =key[index];
+            var divInside = document.createElement('div');
+            x.appendChild(divInside);
+            divInside.className='row';
+            index=index+1;
+            index1=0;
+            while(index1<rows.length){
+                //添加kbd，kbd在divInside里面
+                var kbds = document.createElement('kbd');
+                divInside.appendChild(kbds);
+                //添加span，span在kbd里面
+                var spans = document.createElement('span');
+                kbds.appendChild(spans);
+                spans.textContent = rows[index1];//等价于key[index][index1]
+                //添加img，img在kbd里面
+                var imgs = document.createElement('img');
+                kbds.appendChild(imgs);
+                index1=index1+1;
+                //添加啊button，button在kbd里面
+                var buttons = document.createElement('button');
+                kbds.appendChild(buttons);
+                if(hash[rows[index1]])
+                {
+                imgs.src='https://www.'+hash[rows[index1]]+'/favicon.ico'
+                }
+                else
+                { 
+                imgs.src='//i.loli.net/2017/11/10/5a05afbc5e183.png'
+                }
+                imgs.onerror=function(xx)
+                {
+                  console.log('你下载失败了')
+                //   xx.target.src='//i.loli.net/2017/11/10/5a05afbc5e183.png'
+                }
+                buttons.textContent= 'edit'
+                buttons.id=rows[index1]
+                buttons.onclick=function(y)
+                {
+                z=y.target.id
+                address=prompt("给我一个网址")
+                hash[z]=address
+                localStorage.setItem('uuu',JSON.stringify(hash))//只能存字符串
+                }
+            }
+        }
+        document.onkeypress=function(x)
+      {
+          key=x.key//寻找用户按下去的键
+          website='http://' + (hash[key])
+          window.open(website)
+      }
+    </script>
+</body>
+</html>
